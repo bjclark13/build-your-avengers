@@ -1,17 +1,18 @@
 "use strict";
 function SuperHeroCtrl($scope) {
+  const ctrl = this;
 
-  $scope.heroes = [
+  ctrl.heroes = [
     {
       name: 'Thor',
       type: 'hero',
       power: 90
     }
   ];
-  $scope.villians = [];
+  ctrl.villians = [];
 
   // Initialize with some build-in heros & villians
-  $scope.people = [
+  ctrl.people = [
     {
       name: 'Thor',
       type: 'hero',
@@ -44,21 +45,21 @@ function SuperHeroCtrl($scope) {
     }
   ];
 
-  $scope.isOnTeam = (person) => {
+  ctrl.isOnTeam = (person) => {
     var search = person.name;
 
 
     var found = false;
 
     if ( person.type === 'villian' || person.type === 'both' ) {
-      $scope.villians.forEach( (villian) => {
+      ctrl.villians.forEach( (villian) => {
         if ( villian.name === search )
           found = 'villians';
       }); 
     }
 
     if (person.type === 'hero' || ( person.type === 'both' && !found ) ) {
-      $scope.heroes.forEach( (hero) => {
+      ctrl.heroes.forEach( (hero) => {
         if ( hero.name === search )
           found = 'heroes';
       });
@@ -67,14 +68,14 @@ function SuperHeroCtrl($scope) {
     return found;
   }
 
-  $scope.getTeamWithLeastPower = () => {
-    let heroPoints = $scope.getTotalByType('heroes');
-    let grandTotal = $scope.getGrandTotal();
+  ctrl.getTeamWithLeastPower = () => {
+    let heroPoints = ctrl.getTotalByType('heroes');
+    let grandTotal = ctrl.getGrandTotal();
 
     return (grandTotal - heroPoints) > heroPoints ? 'heroes' : 'villians';  
   }
 
-  $scope.daysUntilAvengers = () => {
+  ctrl.daysUntilAvengers = () => {
     var date1 = new Date();
     var date2 = new Date("04/23/2019");
     
@@ -83,21 +84,21 @@ function SuperHeroCtrl($scope) {
     return Math.ceil(timeDiff / (1000 * 3600 * 24)); 
   }
 
-  $scope.getTotalByType = (type) => {
+  ctrl.getTotalByType = (type) => {
     let total = 0;
 
-    $scope[type].forEach( (person) => {
+    ctrl[type].forEach( (person) => {
       total += person.power;
     });
 
     return total;
   }
 
-  $scope.getGrandTotal = () => {
+  ctrl.getGrandTotal = () => {
     let total = 0;
 
     ['heroes', 'villians'].forEach( (type) => {
-      $scope[type].forEach( (person) => {
+      ctrl[type].forEach( (person) => {
         total += person.power;
       });
     })
@@ -105,36 +106,36 @@ function SuperHeroCtrl($scope) {
     return total;
   }
 
-  $scope.addPerson = (newHero) => {    
-    $scope.people.push(angular.copy(newHero));
+  ctrl.addPerson = (newHero) => {    
+    ctrl.people.push(angular.copy(newHero));
   };
 
-  $scope.addHero = (person) => {
+  ctrl.addHero = (person) => {
     if ( 
       person.type === 'villian' || 
-      (person.type === 'both' && $scope.getTeamWithLeastPower() === 'villians')
+      (person.type === 'both' && ctrl.getTeamWithLeastPower() === 'villians')
     ) {
-      $scope.villians.push(angular.copy(person));
+      ctrl.villians.push(angular.copy(person));
     } else {
-      $scope.heroes.push(angular.copy(person));  
+      ctrl.heroes.push(angular.copy(person));  
     }
   };
 
-  $scope.removeHero = (person) => {
+  ctrl.removeHero = (person) => {
     let search = person.name;
 
-    if ( $scope.isOnTeam(person) === 'villians' ) {
-      $scope.villians.forEach( (villian,index) => {
+    if ( ctrl.isOnTeam(person) === 'villians' ) {
+      ctrl.villians.forEach( (villian,index) => {
         if ( search === villian.name ) {
-          $scope.villians.splice(index, 1);
+          ctrl.villians.splice(index, 1);
         }
       });
     } 
     
-    if ( $scope.isOnTeam(person) === 'heroes' ) {
-      $scope.heroes.forEach( (hero, index) => {
+    if ( ctrl.isOnTeam(person) === 'heroes' ) {
+      ctrl.heroes.forEach( (hero, index) => {
         if ( search === hero.name ) {
-          $scope.heroes.splice(index, 1);
+          ctrl.heroes.splice(index, 1);
         }
       });
     }
