@@ -39,6 +39,16 @@ function HeroList() {
                 power: 85
             },
             {
+                name: 'Spider-Man',
+                type: 'hero',
+                power: 80               
+            },
+            {
+                name: 'Hawkeye',
+                type: 'hero',
+                power: 60               
+            },
+            {
                 name: 'Hela',
                 type: 'villian',
                 power: 95
