@@ -6,16 +6,15 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title> Build your Avengers! </title>
   <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Bangers" rel="stylesheet">
 </head>
 <body>
 
-  <section ng-controller="SuperHeroCtrl as $ctrl">
-    <section>
-      {{$ctrl.daysUntilAvengers()}} Days until <strong>Avengers:Endgame</strong>
-    </section>
+  <main>
+    <h1> Build Your Own Avengers! </h1>
 
     <hero-list></hero-list>
-  </section>
+  </main>
 
   <script src="https://code.angularjs.org/1.7.8/angular.js"></script>
   <script src="app.module.js"></script>
@@ -25,7 +24,6 @@
   <script src="components/hero-roster/heroRoster.js"></script>
   <script src="components/add-hero-form/addHeroForm.js"></script>
   <script src="components/team-list/teamList.js"></script>
-
 
 </body>
 </html>
