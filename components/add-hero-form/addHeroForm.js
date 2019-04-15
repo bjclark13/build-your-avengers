@@ -12,6 +12,7 @@ angular
 .component('addHeroForm', {
     template: `
         <section id="add-custom">
+        <h2>Add a Superhero</h2>
             <form ng-submit="$ctrl.addPerson(person);">
                 <p>
                     <label>
