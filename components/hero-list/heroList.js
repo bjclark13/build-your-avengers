@@ -167,7 +167,7 @@ angular
 .module('App')
 .component('heroList', {
     template: `
-    <section>
+    <div>
         <add-hero-form
             add-to-roster="$ctrl.addPerson"
         ></add-hero-form>
@@ -179,8 +179,10 @@ angular
             <input type="text" ng-model="$ctrl.filterName">
         </section>
 
-        <h2> Add or Remove Heroes and Villians from Your Teams </h2>
-        <h3> If a person can be a hero or villian, he or she will join the <span ng-bind="$ctrl.getTeamWithLeastPower()"></span></h3>
+        <section>
+            <h2> Add or Remove Heroes and Villians </h2>
+            <h3> If a person can be a hero or villian, he or she will join the <span ng-bind="$ctrl.getTeamWithLeastPower()"></span></h3>
+        </section>
 
         <hero-roster 
             people="$ctrl.people"
@@ -191,9 +193,11 @@ angular
         >
         </hero-roster>
 
-        <p> Score: <progress value="{{$ctrl.getTotalByType('heroes')}}" max="{{$ctrl.getGrandTotal()}}">{{ ($ctrl.getGrandTotal() - $ctrl.getTotalByType('villians')) / $ctrl.getGrandTotal() * 100 | number:0 }}%</progress> </p>
-        <p> Heroes are <strong>{{ $ctrl.getTeamWithLeastPower() === 'heroes' ? 'losing :(' : 'winning!' }}</strong> </p>
-
+        <section>
+            <p> Score: <progress value="{{$ctrl.getTotalByType('heroes')}}" max="{{$ctrl.getGrandTotal()}}">{{ ($ctrl.getGrandTotal() - $ctrl.getTotalByType('villians')) / $ctrl.getGrandTotal() * 100 | number:0 }}%</progress> </p>
+            <p> Heroes are <strong>{{ $ctrl.getTeamWithLeastPower() === 'heroes' ? 'losing :(' : 'winning!' }}</strong> </p>
+        </section>
+        
         <team-list 
             people="$ctrl.heroes"
             type="heroes"
@@ -205,7 +209,7 @@ angular
             type="villians"
             total="$ctrl.villianTotals"
         ></team-list>
-    </section>
+    </div>
     `, // or use templateUrl
     controller: HeroList
 });
