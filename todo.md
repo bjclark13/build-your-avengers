@@ -1,0 +1,5 @@
+- Add better mobile styles
+- Make hero list scroll horizonatally on mobile
+- Better organization of elements
+- Add some random chance into the mix
+- Utilize Marvel's API

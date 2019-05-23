@@ -1,0 +1,41 @@
+<div>
+    <add-hero-form></add-hero-form>
+
+    <!-- This is really cool-->
+    <section>
+        <h2>Filter the list</h2>
+        <h3> Filter by name, type, or power. </h3>
+        <input type="text" ng-model="$ctrl.filterName">
+    </section>
+
+    <section>
+        <h2> Add or Remove Heroes and Villians </h2>
+        <h3> If a person can be a hero or villian, he or she will join the <span ng-bind="$ctrl.getTeamWithLeastPower()"></span></h3>
+    </section>
+
+    <hero-roster 
+        people="$ctrl.people"
+        is-on-team="$ctrl.isOnTeam" 
+        add-to-team="$ctrl.addHero"
+        remove-from-team="$ctrl.removeHero"
+        filter-name="$ctrl.filterName"
+    >
+    </hero-roster>
+
+    <section>
+        <p> Score: <progress value="{{$ctrl.getTotalByType('heroes')}}" max="{{$ctrl.getGrandTotal()}}">{{ ($ctrl.getGrandTotal() - $ctrl.getTotalByType('villians')) / $ctrl.getGrandTotal() * 100 | number:0 }}%</progress> </p>
+        <p> Heroes are <strong>{{ $ctrl.getTeamWithLeastPower() === 'heroes' ? 'losing :(' : 'winning!' }}</strong> </p>
+    </section>
+    
+    <team-list 
+        people="$ctrl.heroes"
+        type="heroes"
+        total="$ctrl.heroTotals"
+    ></team-list>
+
+    <team-list 
+        people="$ctrl.villians"
+        type="villians"
+        total="$ctrl.villianTotals"
+    ></team-list>
+</div>
