@@ -1,4 +1,4 @@
-function HeroService() {
+function HeroService($http, $q) {
     const service = this;
     
     service.heroes = [];
@@ -63,22 +63,27 @@ function HeroService() {
     }
         
     service.isOnTeam = (person) => {
+    
+
+        console.log(person);
 
         var search = person.name;
         
         var found = false;
         
-        if ( person.type === 'villian' || person.type === 'both' ) {
+        if ( person.type_id === 3 || person.type_id === 1 ) {
+            console.log('searching both')
             service.villians.forEach( (villian) => {
+                console.log(villian);
                 if ( villian.name === search )
-                found = 'villians';
+                    found = 'villians';
             }); 
         }
         
-        if (person.type === 'hero' || ( person.type === 'both' && !found ) ) {
+        if (person.type_id === 2 || ( person.type_id === 3 && !found ) ) {
             service.heroes.forEach( (hero) => {
                 if ( hero.name === search )
-                found = 'heroes';
+                    found = 'heroes';
             });
         }
         
@@ -106,6 +111,8 @@ function HeroService() {
         
         service[type].forEach( (person) => {
             total += person.power;
+            console.log(total);
+
         });
         
         return total;
@@ -123,6 +130,38 @@ function HeroService() {
         return total;
     }
     
+    service.getPeople = () => {
+        return $http.get('/avengers');
+    }
+
+    service.getHeroes = () => {
+        return $http.get('/avengers?type=2');
+    }
+
+    service.getVillians = () => {
+        return $http.get('/avengers?type=3');
+    }
+
+    service.getTypes = () => {
+        return $q( (resolve, reject) => {
+            if ( service.types ) {
+                resolve(service.types);
+            } else {
+                $http.get('/avengers/types')
+                .then( (response) => {
+                    let types = response.data;
+                    service.types = [];
+                    types.forEach( (type) => {
+                        service.types[type.id] = type;
+                    });
+    
+                    console.log(service.types);
+    
+                    resolve(service.types);
+                })
+            }
+        });
+    }
     /**
      * Add to list of heroes and villians that we can 
      * pull from.
@@ -132,17 +171,32 @@ function HeroService() {
     service.addToRoster = (newHero) => {  
         console.log(service.people);
 
-        service.people.push(angular.copy(newHero));
+        console.log(newHero);
 
-        console.log(service.people);
+        if ( newHero.type === 'villian' ) {
+            newHero.type_id = 1;
+        }
+
+        if ( newHero.type === 'hero' ) {
+            newHero.type_id = 2;
+        }
+
+        if ( newHero.type === 'both' ) {
+            newHero.type_id = 3;
+        }
+
+        $http.post('/avengers', newHero)
+        .then( (resp) => {
+            console.log(resp);
+        })
     };
     
     service.addHero = (person) => {
         console.log('Adding to hero list...', person);
 
         if ( 
-            person.type === 'villian' || 
-            (person.type === 'both' && service.getTeamWithLeastPower() === 'villians')
+            person.type_id === 1 || 
+            (person.type_id === 3 && service.getTeamWithLeastPower() === 'villians')
             ) {
                 service.villians.push(angular.copy(person));
             } else {
@@ -150,7 +204,6 @@ function HeroService() {
             }
         
         service.updateTotals();
-            console.log(service.totals);
     };
         
     service.removeHero = (person) => {

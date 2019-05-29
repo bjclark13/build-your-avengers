@@ -53,35 +53,16 @@ avengers.get('/', (req,res) => {
 });
 
 /**
- * Get a specific avenger
- */
-avengers.get('/:id', (req,res) => {
-    // Getting the ID from the URL and setting it
-    // to the array
-    let index = req.params.id; 
-
-    pool.query(
-        "SELECT * FROM heroes WHERE id = $1::int",
-       [index]
-    ).then((result) => {
-        res.send(result.rows);
-    });
-
-});
-
-/**
  * GET all avengers from database
  */
 avengers.get('/types', (req,res) => {
     // Getting the ID from the URL and setting it
     // to the array
-    console.log("GETTING TYPES");
-    res.send('done');
-    // pool.query(
-    //     "SELECT * FROM types",
-    // ).then((result) => {
-    //     res.send(result.rows);
-    // });
+    pool.query(
+        "SELECT * FROM types",
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 /**
@@ -101,10 +82,35 @@ avengers.get('/types/:id', (req,res) => {
 });
 
 /**
+ * Get a specific avenger
+ */
+avengers.get('/:id', (req,res) => {
+    // Getting the ID from the URL and setting it
+    // to the array
+    let index = req.params.id; 
+
+    pool.query(
+        "SELECT * FROM heroes WHERE id = $1::int",
+       [index]
+    ).then((result) => {
+        res.send(result.rows);
+    });
+
+});
+
+/**
  * Add new avenger to database
  */
 avengers.post('/', (req,res) => {
-    res.send('Not Done Yet!!!');
+    console.log(req.body);
+    let {name, power, type_id} = req.body; 
+
+    pool.query(
+        "INSERT INTO heroes (name, power, type_id) values($1::text, $2::int, $3::int)",
+       [name, power, type_id]
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 /**
@@ -120,11 +126,16 @@ avengers.post('/types', (req,res) => {
  * Add new type to database
  */
 avengers.put('/:id', (req,res) => {
-    let index = req.params.id; 
-    let body = req.body; 
+    let index = req.params.id;
 
+    let {name, power, type_id} = req.body; 
 
-    res.send('Not Done Yet!!!');
+    pool.query(
+        "UPDATE heroes set name=$1::text, power=$2::int, type_id=$3::int WHERE id = $4::int",
+       [name, power, type_id, index]
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 /**
@@ -132,13 +143,26 @@ avengers.put('/:id', (req,res) => {
  */
 avengers.put('/types/:id', (req,res) => {
     let index = req.params.id;
-    let body = req.body;
 
-    res.send('Not Done Yet!!!');
+    let {name, power, type_id} = req.body; 
+
+    pool.query(
+        "INSERT INTO heroes (name, power, type_id) values($1::text, $2::int, $3::int) WHERE id = $4::int",
+       [name, power, type_id, index]
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 avengers.delete('/:id', (req,res) => {
     let index = req.params.id;
+
+    pool.query(
+        "DELETE FROM heroes WHERE id=$1::int",
+       [index]
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 avengers.delete('/types/:id', (req,res) => {
