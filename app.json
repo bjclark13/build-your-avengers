@@ -1,5 +1,5 @@
 {
-    "name": "Build Your Avengers",
+    "name": "build-your-avengers-app",
     "description": "Yup",
     "image": "heroku/nodejs"
   }
