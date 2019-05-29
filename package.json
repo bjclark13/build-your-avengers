@@ -1,0 +1,23 @@
+{
+  "name": "build-your-avengers",
+  "version": "1.0.0",
+  "description": "AngularJS Demo: Create Your Teams of Good Guys and Bad Guys to Fight for the Fate of the Universe",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bjclark13/build-your-avengers.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bjclark13/build-your-avengers/issues"
+  },
+  "homepage": "https://github.com/bjclark13/build-your-avengers#readme",
+  "dependencies": {
+    "express": "^4.17.0",
+    "pg": "^7.11.0"
+  }
+}
