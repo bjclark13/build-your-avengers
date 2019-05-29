@@ -16,21 +16,40 @@ const pool = new Pool({
  * GET all avengers from database
  */
 avengers.get('/', (req,res) => {
+    let whereClause = 'WHERE 1=1';
+
+    let values = [];
 
     if ( req.query.type ) {
-        pool.query(
-            "SELECT * FROM heroes WHERE type_id = $1::int;", 
-            [req.query.type])
-        .then((result) => {
-            res.send(result.rows);
-        });  
+        values.push(req.query.type);
+
+        whereClause += ` AND type_id = $${values.length}::int`;
+    } 
+    
+    if (req.query.power) {
+        values.push(req.query.power);
+
+        whereClause += ` AND power = $${values.length}::int`;    
     } else {
-        pool.query("SELECT * FROM heroes").then((result) => {
-            res.send(result.rows);
-        });
-    }
+        if ( req.query.powerGreaterThan ) {
+            values.push(req.query.powerGreaterThan);
 
+            whereClause += ` AND power > $${values.length}::int`;   
+        }
 
+        if ( req.query.powerLessThan ) {
+            values.push(req.query.powerLessThan);
+
+            whereClause += ` AND power < $${values.length}::int`; 
+        }
+    } 
+
+    pool.query(
+        "SELECT * FROM heroes" + " " + whereClause,
+       (values.length ? values : null)
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 /**
@@ -40,9 +59,13 @@ avengers.get('/:id', (req,res) => {
     // Getting the ID from the URL and setting it
     // to the array
     let index = req.params.id; 
-    let query = req.query;
 
-    res.send('Not Done Yet!!!');
+    pool.query(
+        "SELECT * FROM heroes WHERE id = $1::int",
+       [index]
+    ).then((result) => {
+        res.send(result.rows);
+    });
 
 });
 
@@ -50,7 +73,15 @@ avengers.get('/:id', (req,res) => {
  * GET all avengers from database
  */
 avengers.get('/types', (req,res) => {
-    res.send('Not Done Yet!!!');
+    // Getting the ID from the URL and setting it
+    // to the array
+    console.log("GETTING TYPES");
+    res.send('done');
+    // pool.query(
+    //     "SELECT * FROM types",
+    // ).then((result) => {
+    //     res.send(result.rows);
+    // });
 });
 
 /**
@@ -60,7 +91,13 @@ avengers.get('/types/:id', (req,res) => {
     // Getting the ID from the URL and setting it
     // to the array
     let index = req.params.id; 
-    res.send('Not Done Yet!!!');
+
+    pool.query(
+        "SELECT * FROM types WHERE id = $1::int",
+       [index]
+    ).then((result) => {
+        res.send(result.rows);
+    });
 });
 
 /**
