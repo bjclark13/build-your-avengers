@@ -8,7 +8,7 @@ app.use(express.json());
 // server.js, any file with a created and configured Express app
 app.use(express.static("./public"));
 
-// Use "Questions route"
+// Use "Avengers route"
 const avengers = require('./avengers');
 app.use('/avengers', avengers);
 

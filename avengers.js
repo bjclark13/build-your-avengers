@@ -2,7 +2,15 @@ const express = require('express');
 
 const avengers = express.Router();
 
-const pool = require('./pg-connection-pool');
+const Pool = require('pg').Pool;
+
+const pool = new Pool({
+  user: 'postgres',
+  host: '127.0.0.1',
+  database: 'avengers',
+  password: 'password',
+  port: 5432,
+});
 
 /**
  * GET all avengers from database

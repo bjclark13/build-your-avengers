@@ -9,7 +9,7 @@ angular
         ctrl.getGrandTotal = HeroService.getGrandTotal;
         ctrl.getTeamWithLeastPower = HeroService.getTeamWithLeastPower;
         ctrl.getTotalByType = HeroService.getTotalByType;
-
+ 
         ctrl.addHero = (hero) => {
             console.log('in add hero');
             HeroService.addHero(hero);
@@ -25,6 +25,7 @@ angular
 
             ctrl.heroes = HeroService.heroes;
             ctrl.villians = HeroService.villians;
+            // 
         }
 
         ctrl.getPeople = () => {
